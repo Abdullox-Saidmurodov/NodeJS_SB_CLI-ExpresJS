@@ -1,22 +1,34 @@
 import express from 'express'
-import path, {dirname} from 'path'
-import {fileURLToPath} from 'url'
+// import path, {dirname} from 'path'
+// import {fileURLToPath} from 'url'
+import {engine, create} from 'express-handlebars'
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
+// const __filename = fileURLToPath(import.meta.url)
+// const __dirname = dirname(__filename)
 
 const app = express()
 
+const hbs = create({
+    defaultLayout: 'main',
+    extname: 'hbs',
+})
+
+app.engine('hbs', hbs.engine)
+app.set('view engine', 'hbs')
+app.set('views', './views')
+
 app.get('/', (req, res) => {
     // res.send('Main page')
-    res.status(200)
-    res.sendFile(path.join(__dirname, 'views', 'index.html'))
+    // res.status(200)
+    res.render('index')
+    // res.end()
 })
 
 app.get('/about', (req, res) => {
     // res.send('About page')
-    res.status(200)
-    res.sendFile(path.join(__dirname, 'views', 'about.html'))
+    // res.status(200)
+    res.render('about')
+    // res.end()
 })
 
 const PORT = process.env.PORT || 4100
